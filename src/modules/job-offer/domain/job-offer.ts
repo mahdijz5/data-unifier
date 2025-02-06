@@ -4,14 +4,17 @@ import {
   NonEmptyStringArray,
   PositiveNumber,
   StrictBoolean,
+  UUID,
   ValidDate,
 } from 'src/common/types';
 import { Brand } from 'src/common/types/brand';
 import { z } from 'zod';
+import { Company } from './company';
 
 export type JobOffer = JobOffer.Base;
 export namespace JobOffer {
   export type Base = {
+    id: UUID;
     jobId: NonEmptyString;
     title: NonEmptyString;
     location: NonEmptyString;
@@ -20,7 +23,27 @@ export namespace JobOffer {
     postedDate: ValidDate;
     skills: SkillSet;
     isRemote: StrictBoolean;
+    company: Company;
+    workTime: WorkTime;
   };
+
+  export type WorkTime = (typeof WorkTime.Options)[number];
+  export namespace WorkTime {
+    export const Options = [
+      'part-time',
+      'full-time',
+      'Hybrid',
+      'contract',
+    ] as const;
+    export const is = (value: string): value is WorkTime =>
+      Options.includes(value as WorkTime);
+    export const mk = (value: string): Option<WorkTime> =>
+      is(value) ? some(value) : none;
+    export const mkUnsafe = (value: string) => {
+      if (is(value)) return value;
+      throw new Error('Invalid WorkTime');
+    };
+  }
 
   export namespace Salary {
     export type Min = Brand<number, 'salaryMin'>;
@@ -65,7 +88,9 @@ export namespace JobOffer {
 
   const jobOfferSchema = z
     .object({
+      id: z.string().uuid().refine(UUID.is, { message: 'Invalid UUID' }),
       jobId: z.string().refine(NonEmptyString.is, { message: 'Invalid jobId' }),
+      workTime: z.string().refine(WorkTime.is, { message: 'Invalid WorkTime' }),
       title: z.string().refine(NonEmptyString.is, { message: 'Invalid title' }),
       location: z
         .string()
@@ -83,14 +108,21 @@ export namespace JobOffer {
     .required();
 
   export const mk = (data: {
+    id: string;
     jobId: string;
     title: string;
     location: string;
     salaryMin: number;
     salaryMax: number;
     postedDate: Date;
-    skills: Array<string>;
     isRemote: boolean;
+    skills: Array<string>;
+    workTime: string | WorkTime;
+    company: {
+      name: string;
+      industry?: string;
+      website?: string;
+    };
   }): JobOffer => {
     const validatedData = jobOfferSchema.parse(data) as Required<
       z.infer<typeof jobOfferSchema>
@@ -100,12 +132,14 @@ export namespace JobOffer {
       validatedData.salaryMax,
     );
     const skills = SkillSet.mkUnsafe([...new Set(validatedData.skills)]);
+    const company = Company.mk(data.company);
 
     return {
       ...validatedData,
       salaryMax,
       salaryMin,
       skills,
+      company,
     };
   };
 }

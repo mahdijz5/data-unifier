@@ -8,6 +8,8 @@ import { BullModule } from '@nestjs/bull';
 import { JobNameEnum } from './common/enums';
 import { JobScheduleService } from './job-schedule/job-schedule.service';
 import { JobProcessor } from './job-schedule/job.processor';
+import { JobOfferModule } from './modules/job-offer/job-offer.module';
+import { DatabaseModule } from './infrastructure/database/database.module';
 
 @Module({
   imports: [
@@ -21,6 +23,8 @@ import { JobProcessor } from './job-schedule/job.processor';
       name: JobNameEnum.JOB_FETCH,
     }),
     LoggerModule,
+    JobOfferModule,
+    DatabaseModule,
   ],
   controllers: [AppController],
   providers: [AppService, JobScheduleService, JobProcessor],

@@ -12,11 +12,11 @@ import { config } from 'src/config';
       username: config.database.username,
       password: config.database.password,
       database: config.database.name,
-      entities: ['dist/apps/blockchain/libs/common/src/entities/*/*.entity.js'],
-      logging: 'all',
+      entities: ['dist/infrastructure/database/entities/*.entity.js'],
+      // logging: 'all',
       synchronize: true,
     }),
   ],
   providers: [],
 })
-export class AppModule {}
+export class DatabaseModule {}

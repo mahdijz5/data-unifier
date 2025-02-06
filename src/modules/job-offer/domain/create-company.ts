@@ -1,11 +1,11 @@
+import { UUID } from 'crypto';
 import { Option, some, none } from 'fp-ts/Option';
-import { NonEmptyString, UUID } from 'src/common/types';
+import { NonEmptyString } from 'src/common/types';
 import { z } from 'zod';
 
-export type Company = Company.Base;
-export namespace Company {
+export type CreateCompany = CreateCompany.Base;
+export namespace CreateCompany {
   export type Base = {
-    id: UUID;
     name: NonEmptyString;
     industry: Option<NonEmptyString>;
     website: Option<NonEmptyString>;
@@ -17,7 +17,6 @@ export namespace Company {
       .transform((value) => (value !== undefined ? some(value) : none));
 
   const companySchema = z.object({
-    id: z.string().uuid().refine(UUID.is, { message: 'Invalid UUID' }),
     name: z.string().refine(NonEmptyString.is, { message: 'Invalid Name' }),
     industry: OptionSchema(
       z

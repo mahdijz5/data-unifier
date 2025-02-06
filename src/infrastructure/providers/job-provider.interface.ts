@@ -1,5 +1,5 @@
-import { JobOffer } from 'src/modules/job-offer/domain/job-offer';
+import { CreateJobOffer } from 'src/modules/job-offer/domain/create-job-offer';
 
-export interface JobProvider {
-  fetchJobs(): Promise<JobOffer>;
+export interface JobProviderInterface {
+  fetchJobs(): Promise<CreateJobOffer[]>;
 }

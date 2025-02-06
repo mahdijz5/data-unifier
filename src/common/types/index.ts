@@ -14,6 +14,20 @@ export namespace NonEmptyString {
   };
 }
 
+export type UUID = UUID.Type;
+export namespace UUID {
+  const uuidRegex =
+    /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+  export type Type = Brand<string, 'UUID'>;
+  export const is = (value: string): value is UUID => uuidRegex.test(value);
+  export const mk = (value: string): Option<UUID> =>
+    is(value) ? some(value) : none;
+  export const mkUnsafe = (value: string) => {
+    if (!is(value)) throw new Error('Invalid UUID');
+    return value;
+  };
+}
+
 export type NonEmptyStringArray = NonEmptyStringArray.Type;
 export namespace NonEmptyStringArray {
   export type Type = Brand<string[], 'NonEmptyStringArray'>;
@@ -35,6 +49,18 @@ export namespace PositiveNumber {
     is(value) ? some(value) : none;
   export const mkUnsafe = (value: number) => {
     if (!is(value)) throw new Error('Invalid PositiveNumber');
+    return value;
+  };
+}
+
+export type NonNegativeNumber = NonNegativeNumber.Type;
+export namespace NonNegativeNumber {
+  export type Type = Brand<number, 'NonNegativeNumber'>;
+  export const is = (value: number): value is NonNegativeNumber => value >= 0;
+  export const mk = (value: number): Option<NonNegativeNumber> =>
+    is(value) ? some(value) : none;
+  export const mkUnsafe = (value: number) => {
+    if (!is(value)) throw new Error('Invalid NonNegativeNumber');
     return value;
   };
 }
