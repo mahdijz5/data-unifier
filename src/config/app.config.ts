@@ -6,6 +6,7 @@ dotenv.config();
 const configSchema = z.object({
   app: z.object({
     port: z.preprocess((val) => Number(val), z.number().positive()),
+    bullBoardPort: z.preprocess((val) => Number(val), z.number().positive()),
   }),
   database: z.object({
     host: z.string(),
@@ -22,11 +23,19 @@ const configSchema = z.object({
       url: z.string().url(),
     }),
   }),
+  redis: z.object({
+    host: z.string(),
+    port: z.preprocess((val) => Number(val), z.number().positive()),
+  }),
+  job: z.object({
+    interval: z.preprocess((val) => Number(val), z.number().positive()),
+  }),
 });
 
 export const config = configSchema.parse({
   app: {
     port: process.env.PORT,
+    bullBoardPort: process.env.BULL_BOARD_PORT,
   },
   database: {
     host: process.env.DB_HOST,
@@ -38,6 +47,13 @@ export const config = configSchema.parse({
   api: {
     provider1: { url: process.env.PROVIDER1_URL },
     provider2: { url: process.env.PROVIDER2_URL },
+  },
+  redis: {
+    port: process.env.REDIS_PORT,
+    host: process.env.REDIS_HOST,
+  },
+  job: {
+    interval: process.env.CRON_JOB_INTERVAL,
   },
 });
 

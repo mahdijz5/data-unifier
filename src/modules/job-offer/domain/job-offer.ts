@@ -39,7 +39,7 @@ export namespace JobOffer {
 
     export const mk = (min: number, max: number): Option<[Min, Max]> =>
       isMin(min, max) && isMax(min, max) ? some([min, max]) : none;
-    
+
     export const mkUnsafe = (min: number, max: number) => {
       if (isMin(min, max) && isMax(min, max)) return [min, max] as const;
       throw Error('Invalid salary range.');
