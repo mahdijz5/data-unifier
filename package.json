@@ -26,6 +26,7 @@
     "@nestjs/platform-express": "^10.0.0",
     "@nestjs/typeorm": "^11.0.0",
     "dotenv": "^16.4.7",
+    "fp-ts": "^2.16.9",
     "nestjs-pino": "^4.3.0",
     "pg": "^8.13.1",
     "pino": "^9.6.0",

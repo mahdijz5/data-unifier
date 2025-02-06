@@ -1,16 +1,15 @@
 import { z } from 'zod';
 import * as dotenv from 'dotenv';
 
-
 dotenv.config();
 
- const configSchema = z.object({
+const configSchema = z.object({
   app: z.object({
     port: z.preprocess((val) => Number(val), z.number().positive()),
-   }),
+  }),
   database: z.object({
-    host: z.string() ,
-    port: z.preprocess((val) => Number(val), z.number().positive() ),
+    host: z.string(),
+    port: z.preprocess((val) => Number(val), z.number().positive()),
     username: z.string(),
     password: z.string(),
     name: z.string(),
@@ -25,10 +24,10 @@ dotenv.config();
   }),
 });
 
- export const config = configSchema.parse({
+export const config = configSchema.parse({
   app: {
     port: process.env.PORT,
-   },
+  },
   database: {
     host: process.env.DB_HOST,
     port: process.env.DB_PORT,
@@ -42,4 +41,4 @@ dotenv.config();
   },
 });
 
- export const { app, database, api } = config;
+export const { app, database, api } = config;

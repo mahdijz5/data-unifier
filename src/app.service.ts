@@ -3,12 +3,10 @@ import { config } from './config/app.config';
 
 @Injectable()
 export class AppService implements OnModuleInit {
-  constructor() {
-  }
+  constructor() {}
   onModuleInit() {
-     console.log(config.database) 
-    
-  } 
+    console.log(config.database);
+  }
   getHello(): string {
     return 'Hello World!';
   }

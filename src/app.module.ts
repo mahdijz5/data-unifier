@@ -6,9 +6,7 @@ import { config } from './config/app.config';
 import { LoggerModule } from './logger';
 
 @Module({
-  imports: [
-    LoggerModule
-  ],
+  imports: [LoggerModule],
   controllers: [AppController],
   providers: [AppService],
 })
