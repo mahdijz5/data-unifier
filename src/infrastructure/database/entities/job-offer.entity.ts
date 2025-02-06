@@ -14,10 +14,10 @@ export class JobOfferEntity extends AbstractEntity<JobOfferEntity> {
   location: string;
 
   @Column()
-  compensationMin: number;
+  salaryMin: number;
 
   @Column()
-  compensationMax: number;
+  salaryMax: number;
 
   @Column({
     type: 'timestamp with time zone',

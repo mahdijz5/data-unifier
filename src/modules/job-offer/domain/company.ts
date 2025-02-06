@@ -33,8 +33,8 @@ export namespace Company {
 
   export const mk = (data: {
     name: string;
-    industry: string;
-    website: string;
+    industry?: string;
+    website?: string;
   }) => {
     const validatedData = companySchema.parse(data) as Required<
       z.infer<typeof companySchema>
