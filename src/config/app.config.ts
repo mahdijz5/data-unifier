@@ -7,6 +7,7 @@ const configSchema = z.object({
   app: z.object({
     port: z.preprocess((val) => Number(val), z.number().positive()),
     bullBoardPort: z.preprocess((val) => Number(val), z.number().positive()),
+    docPath: z.string(),
   }),
   database: z.object({
     host: z.string(),
@@ -36,6 +37,7 @@ export const config = configSchema.parse({
   app: {
     port: process.env.PORT,
     bullBoardPort: process.env.BULL_BOARD_PORT,
+    docPath: process.env.DOC_PATH,
   },
   database: {
     host: process.env.DB_HOST,

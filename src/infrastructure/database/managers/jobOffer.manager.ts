@@ -19,7 +19,7 @@ import {
 } from 'src/common/types';
 import { CreateJobOffer } from 'src/modules/job-offer/domain/create-job-offer';
 import { CompanyEntity } from '../entities/company.entity';
-import { isSome } from 'fp-ts/lib/Option';
+import { isSome, Option } from 'fp-ts/lib/Option';
 
 @Injectable()
 export class JobOfferManager implements JobOfferManagerInterface {
@@ -67,30 +67,34 @@ export class JobOfferManager implements JobOfferManagerInterface {
   }
 
   async pagination(
-    filter: Partial<{
-      title: NonEmptyString;
-      location: NonEmptyString;
-      isRemote: StrictBoolean;
-      salaryMin: PositiveNumber;
-      salaryMax: PositiveNumber;
-      workTime: JobOffer.WorkTime;
-    }>,
+    filter: {
+      location: Option<NonEmptyString>;
+      title: Option<NonEmptyString>;
+      isRemote: Option<StrictBoolean>;
+      salaryMin: Option<PositiveNumber>;
+      salaryMax: Option<PositiveNumber>;
+      workTime: Option<JobOffer.WorkTime>;
+    },
     page: PositiveNumber,
     limit: PositiveNumber,
   ): Promise<[JobOffer[], NonNegativeNumber]> {
     const where: FindManyOptions<JobOfferEntity>['where'] = {};
 
-    if (filter.title) where.title = Like(`%${filter.title}%`);
-    if (filter.location) where.location = Like(`%${filter.location}%`);
-    if (filter.salaryMin) where.salaryMin = MoreThanOrEqual(filter.salaryMin);
-    if (filter.salaryMax) where.salaryMax = LessThanOrEqual(filter.salaryMax);
-    if (filter.workTime) where.workTime = filter.workTime;
+    if (isSome(filter.title)) where.title = Like(`%${filter.title.value}%`);
+    if (isSome(filter.location))
+      where.location = Like(`%${filter.location.value}%`);
+    if (isSome(filter.salaryMin))
+      where.salaryMin = MoreThanOrEqual(filter.salaryMin.value);
+    if (isSome(filter.salaryMax))
+      where.salaryMax = LessThanOrEqual(filter.salaryMax.value);
+    if (isSome(filter.workTime)) where.workTime = filter.workTime.value;
 
     const [entities, total] = await this.jobOfferRepository.findAndCount({
       where,
       skip: (page - 1) * limit,
       take: limit,
       order: { postedDate: 'DESC' },
+      relations: { company: true },
     });
 
     return [

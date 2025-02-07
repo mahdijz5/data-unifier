@@ -1,3 +1,4 @@
+import { Option } from 'fp-ts/Option';
 import {
   NonEmptyString,
   NonNegativeNumber,
@@ -8,18 +9,18 @@ import { CreateJobOffer } from 'src/modules/job-offer/domain/create-job-offer';
 import { JobOffer } from 'src/modules/job-offer/domain/job-offer';
 
 type JobOfferFilter = {
-  location: NonEmptyString;
-  title: NonEmptyString;
-  isRemote: StrictBoolean;
-  salaryMin: PositiveNumber;
-  salaryMax: PositiveNumber;
-  workTime: JobOffer.WorkTime;
+  location: Option<NonEmptyString>;
+  title: Option<NonEmptyString>;
+  isRemote: Option<StrictBoolean>;
+  salaryMin: Option<PositiveNumber>;
+  salaryMax: Option<PositiveNumber>;
+  workTime: Option<JobOffer.WorkTime>;
 };
 
 export interface JobOfferManagerInterface {
   create(data: CreateJobOffer): Promise<JobOffer>;
   pagination(
-    filter: Partial<JobOfferFilter>,
+    filter: JobOfferFilter,
     page: PositiveNumber,
     limit: PositiveNumber,
   ): Promise<[JobOffer[], NonNegativeNumber]>;

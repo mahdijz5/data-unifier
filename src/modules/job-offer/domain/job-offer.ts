@@ -119,6 +119,7 @@ export namespace JobOffer {
     skills: Array<string>;
     workTime: string | WorkTime;
     company: {
+      id: string;
       name: string;
       industry?: string;
       website?: string;

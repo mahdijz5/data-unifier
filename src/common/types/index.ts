@@ -1,6 +1,8 @@
 import { Option, none, some } from 'fp-ts/Option';
 import { Brand } from './brand';
 
+export * from './brand';
+
 export type NonEmptyString = NonEmptyString.Type;
 export namespace NonEmptyString {
   export type Type = Brand<string, 'NonEmptyString'>;

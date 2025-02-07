@@ -8,15 +8,18 @@ import { CompanyManager } from 'src/infrastructure/database/managers/company.man
 import { CompanyEntity } from 'src/infrastructure/database/entities/company.entity';
 import { JobProviderFactory } from 'src/infrastructure/providers/job.provider.factory';
 import { JobProviderModule } from 'src/infrastructure/providers/job-provider.module';
+import { JobOfferController } from './controllers/job-offer.controller';
+import { JobOfferService } from './services/job-offer.service';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([JobOfferEntity, CompanyEntity]),
     JobProviderModule,
   ],
-  controllers: [],
+  controllers: [JobOfferController],
   providers: [
     JobOfferSyncService,
+    JobOfferService,
     {
       provide: InjectTokenEnum.JOB_OFFER_MANAGER,
       useClass: JobOfferManager,

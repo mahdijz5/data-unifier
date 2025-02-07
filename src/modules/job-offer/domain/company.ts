@@ -1,5 +1,6 @@
-import { Option, some, none } from 'fp-ts/Option';
+import { Option } from 'fp-ts/Option';
 import { NonEmptyString, UUID } from 'src/common/types';
+import { OptionSchema } from 'src/common/validation';
 import { z } from 'zod';
 
 export type Company = Company.Base;
@@ -10,11 +11,6 @@ export namespace Company {
     industry: Option<NonEmptyString>;
     website: Option<NonEmptyString>;
   };
-
-  const OptionSchema = <T extends z.ZodTypeAny>(schema: T) =>
-    z
-      .union([schema, z.undefined()])
-      .transform((value) => (value !== undefined ? some(value) : none));
 
   const companySchema = z.object({
     id: z.string().uuid().refine(UUID.is, { message: 'Invalid UUID' }),
@@ -34,6 +30,7 @@ export namespace Company {
   });
 
   export const mk = (data: {
+    id: string;
     name: string;
     industry?: string;
     website?: string;

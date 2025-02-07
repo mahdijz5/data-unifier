@@ -1,12 +1,9 @@
-import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
-import { JobOffer } from '../domain/job-offer';
+import { Inject, Injectable } from '@nestjs/common';
 import { InjectTokenEnum } from 'src/common/enums';
-import { JobOfferManagerInterface } from 'src/infrastructure/database/managers/jobOffer.manager.interface';
 import { StrictBoolean } from 'src/common/types';
-import { CompanyManagerInterface } from 'src/infrastructure/database/managers/company.manager.interface';
-import { Company } from '../domain/company';
-import { CreateJobOffer } from '../domain/create-job-offer';
+import { JobOfferManagerInterface } from 'src/infrastructure/database/managers/jobOffer.manager.interface';
 import { JobProviderFactory } from 'src/infrastructure/providers/job.provider.factory';
+import { CreateJobOffer } from '../domain/create-job-offer';
 
 @Injectable()
 export class JobOfferSyncService {
