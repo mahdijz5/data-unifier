@@ -2,6 +2,8 @@ import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { config } from 'src/config';
+import { JobOfferEntity } from './entities/job-offer.entity';
+import { CompanyEntity } from './entities/company.entity';
 
 @Module({
   imports: [
@@ -12,7 +14,7 @@ import { config } from 'src/config';
       username: config.database.username,
       password: config.database.password,
       database: config.database.name,
-      entities: ['dist/infrastructure/database/entities/*.entity.js'],
+      entities: [JobOfferEntity, CompanyEntity],
       // logging: 'all',
       synchronize: true,
     }),
