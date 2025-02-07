@@ -1,13 +1,12 @@
-import { Option, some, none } from 'fp-ts/Option';
+import { none, Option, some } from 'fp-ts/Option';
 import {
   NonEmptyString,
-  NonEmptyStringArray,
   PositiveNumber,
   StrictBoolean,
   UUID,
   ValidDate,
-} from 'src/common/types';
-import { Brand } from 'src/common/types/brand';
+  Brand,
+} from '../../../common/types';
 import { z } from 'zod';
 import { Company } from './company';
 

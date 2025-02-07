@@ -8,6 +8,7 @@ import { TIMEOUT } from 'src/common/enums/timeout.enum';
 import { Provider1ResponseType } from './types';
 import { CreateJobOffer } from 'src/modules/job-offer/domain/create-job-offer';
 import { match } from 'ts-pattern';
+import { AxiosError } from 'axios';
 
 @Injectable()
 export class Provider1Service implements JobProviderInterface {
@@ -65,7 +66,7 @@ export class Provider1Service implements JobProviderInterface {
 
       return convertedData;
     } catch (error) {
-      console.log(error);
+      throw error;
     }
   }
 

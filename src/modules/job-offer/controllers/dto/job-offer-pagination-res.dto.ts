@@ -14,6 +14,9 @@ export class CompanyResponseDto {
 }
 
 export class JobOfferPaginationRes {
+  @ApiProperty({ example: '550e8400-e29b-41d4-a716-446655440000' })
+  id: string;
+
   @ApiProperty({ example: 'job-12345' })
   jobId: string;
 

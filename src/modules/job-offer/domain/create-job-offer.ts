@@ -1,8 +1,7 @@
 import { NonEmptyString, StrictBoolean, ValidDate } from 'src/common/types';
 import { z } from 'zod';
-import { JobOffer } from './job-offer';
-import { Company } from './company';
 import { CreateCompany } from './create-company';
+import { JobOffer } from './job-offer';
 
 export type CreateJobOffer = CreateJobOffer.Base;
 export namespace CreateJobOffer {
