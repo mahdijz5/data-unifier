@@ -98,7 +98,7 @@ export class JobOfferManager implements JobOfferManagerInterface {
     });
 
     return [
-      entities.map((item) => JobOffer.mk(item)),
+      entities.reduce((p, c) => [...p, JobOffer.mk(c)], []),
       NonNegativeNumber.mkUnsafe(total),
     ];
   }
