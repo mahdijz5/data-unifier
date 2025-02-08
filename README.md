@@ -60,28 +60,19 @@ This project utilizes functional programming techniques, including:
    npm install
    ```
 3. Configure environment variables in `.env`.
-4. Run database migrations:
-   ```sh
-   npm run migration:run
-   ```
-5. Start the application:
+ 
+4. Start the application:
    ```sh
    npm run start:dev 
    ```
-6. Run unit-testing:
+5. Run unit-testing:
    ```sh
    npm run test 
    ```
-7. Run e2e testing:
+6. Run e2e testing:
    ```sh
    npm run test:e2e
    ```
-
-## **Contributing**
-
-- Follow the **Clean Architecture & DDD** guidelines.
-- Ensure all **code is functional-first** where applicable.
-- Write **unit tests for all business logic** before merging changes.
 
 ## **Conclusion**
 
