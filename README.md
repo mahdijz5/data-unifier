@@ -1,85 +1,89 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# **Data-unifier**
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+## **Overview**
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+This project is built using **Domain-Driven Design (DDD)** principles with a **functional programming (FP)** approach. It follows **Clean Architecture**, ensuring separation of concerns and maintainability. The application leverages **Bull** as a job queue over traditional cron jobs for improved reliability, retries, and scalability.
 
-## Description
+## **Tech Stack**
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+- **Framework:** NestJS
+- **Architecture:** Clean Architecture + DDD
+- **Queue System:** Bull (Bull-Board for monitoring)
+- **Database:** PostgreSQL
+- **ORM:** TypeORM
+- **Caching:** Redis
+- **Validation & Parsing:** Functional Approach (**Don't parse validate**)
+- **API Documentation:** Swagger
 
-## Project setup
+## **Core Principles & Design Decisions**
 
-```bash
-$ npm install
-```
+### **1. Domain-Driven Design (DDD)**
 
-## Compile and run the project
+The project strictly follows **DDD principles**, ensuring the **repository layer only deals with domain entities** and not raw database models. This enforces domain logic integrity and separation of concerns.
 
-```bash
-# development
-$ npm run start
+### **2. Functional Programming (FP) Principles**
 
-# watch mode
-$ npm run start:dev
+This project utilizes functional programming techniques, including:
 
-# production mode
-$ npm run start:prod
-```
+- **Pure Functions:** Functions return the same output for the same input, avoiding side effects.
+- **Immutability:** Objects are immutable wherever possible, ensuring better predictability.
+- **Option Type (Maybe):** Instead of using `null`, we wrap optional values in `Option<T>` to enforce explicit handling.
+- **Composition Over Inheritance:** Small, composable functions replace deep class hierarchies.
 
-## Run tests
+### **3. Parsing vs Validation ("Don't Parse Validate")**
 
-```bash
-# unit tests
-$ npm run test
+- **Parsing is separate from validation** to ensure data integrity.
+- **Domain objects are assumed to be valid once created.**
+- **Validation occurs at the application layer** before an entity enters the domain.
 
-# e2e tests
-$ npm run test:e2e
+### **4. Pagination Optimization**
 
-# test coverage
-$ npm run test:cov
-```
+- The repository layer directly returns **DTOs** for pagination instead of domain models, reducing unnecessary mappings.
+- **Option values** are handled at the repository level and transformed accordingly for client responses.
 
-## Resources
+### **5. API Documentation & Monitoring**
 
-Check out a few resources that may come in handy when working with NestJS:
+- **Swagger** is used for API documentation.
+  - Available at: `http://localhost:<port>/`docs
+- **Bull-Board** is used for monitoring queue jobs.
+  - Available at: `http://localhost:<port>/`admin/queues
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+## **Installation & Setup**
 
-## Support
+1. Clone the repository:
+   ```sh
+   git clone <repo_url>
+   cd <project_folder>
+   ```
+2. Install dependencies:
+   ```sh
+   npm install
+   ```
+3. Configure environment variables in `.env`.
+4. Run database migrations:
+   ```sh
+   npm run migration:run
+   ```
+5. Start the application:
+   ```sh
+   npm run start:dev 
+   ```
+6. Run unit-testing:
+   ```sh
+   npm run test 
+   ```
+7. Run e2e testing:
+   ```sh
+   npm run test:e2e
+   ```
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+## **Contributing**
 
-## Stay in touch
+- Follow the **Clean Architecture & DDD** guidelines.
+- Ensure all **code is functional-first** where applicable.
+- Write **unit tests for all business logic** before merging changes.
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+## **Conclusion**
 
-## License
+This project showcases a practical implementation of **DDD, functional programming, and scalable job processing** using Bull. It ensures **high maintainability, reliability, and efficient handling of domain logic**.
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
