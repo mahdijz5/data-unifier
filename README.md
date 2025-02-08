@@ -77,12 +77,6 @@ This project utilizes functional programming techniques, including:
    npm run test:e2e
    ```
 
-## **Contributing**
-
-- Follow the **Clean Architecture & DDD** guidelines.
-- Ensure all **code is functional-first** where applicable.
-- Write **unit tests for all business logic** before merging changes.
-
 ## **Conclusion**
 
 This project showcases a practical implementation of **DDD, functional programming, and scalable job processing** using Bull. It ensures **high maintainability, reliability, and efficient handling of domain logic**.
